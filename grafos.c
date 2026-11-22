@@ -3,6 +3,7 @@
 // Engenharia de Software - Terceiro período                        //
 // Estrutura de Dados - Grafos                                      //
 // Professor Manfred Heil Junior                                    //
+// Beatriz Cercal Cachoeira e Miguel Rochar Xavier                  //
 // 22/11/2026                                                       //
 //------------------------------------------------------------------//
 
