@@ -5,7 +5,7 @@
 // Professor: Manfred Heil Junior                                   //
 // Alunos: Beatriz Cercal Cachoeira e Miguel Rochar Xavier          //
 // Data: 22/11/2026.                                                //
-// Ultima Alteração: 22/11/2026                                     //
+// Ultima Alteração: 24/11/2026                                     //
 //------------------------------------------------------------------//
 
 //------------------------------------------------------------------//
@@ -22,6 +22,9 @@
 // 7- Grafo: Grade implícita. Não guarda os vizinhos, olha          //
 // cima, baixo, esquerda e direita na hora. Uma matriz de pesos     //
 // teria 1775 x 1775 posições, quase todas vazias.                  //
+// 8- Borda: não é conferida na validação (o enunciado não pede).   //
+// viz() testa os limites da matriz antes de olhar se é parede,     //
+// então nunca lê fora do labirinto, mesmo sem borda de '#'.        //
 //------------------------------------------------------------------//
 
 //------------------------------------------------------------------//
@@ -38,6 +41,11 @@
 // - Custo do caminho: soma do custo de entrada de cada casa,       //
 //   menos a entrada E (onde já começamos).                         //
 // - Passos: um caminho com n passos passa por n + 1 casas.         //
+// - Por que largura na etapa 1: sem pesos, a fila visita as casas  //
+//   por camadas (0, 1, 2...), então a primeira vez que uma casa é  //
+//   alcançada já é pelo menor número de passos.                    //
+// - Por que Dijkstra na etapa 2: com a lama, o caminho de menos    //
+//   passos pode não ser o mais barato, e a largura ignora pesos.   //
 // - Dijkstra serve aqui porque nenhum custo é negativo (1 ou 3).   //
 // - Casa inalcançável fica com distância infinita (INF) e nenhum   //
 //   caminho é impresso. Se a saída não é alcançável, as duas       //
@@ -412,8 +420,11 @@ void lista(int *cam, int n)
 //------------------------------------------------------------------//
 //                         CORES (opcional)                         //
 // Código ANSI: \033[30;46m = letra preta (30) com fundo ciano (46).//
-// \033[0m volta para a cor normal. Funciona no Windows 10+, Linux  //
-// e Mac, sem precisar de windows.h.                                //
+// \033[0m volta para a cor normal. Funciona no Linux, no Mac e     //
+// nos terminais do Windows que aceitam ANSI, como o Windows        //
+// Terminal.                                                        //
+// Num console que não aceita, aparecem os códigos no lugar da cor, //
+// mas o caminho continua impresso em (linha, coluna).              //
 //------------------------------------------------------------------//
 #define SEM_COR  0
 #define CINZA    100
@@ -425,10 +436,13 @@ void lista(int *cam, int n)
 
 //------------------------------------------------------------------//
 // cor: decide a cor de fundo da casa v em cada desenho.            //
-// modo 1 (largura): caminho = verde; casas processadas até chegar  //
-//   na saída (distância <= a da saída) = ciano.                    //
-// modo 2 (Dijkstra): caminho = amarelo; casas processadas até      //
-//   chegar na saída (custo <= o da saída) = roxo.                  //
+// modo 1 (largura): caminho = verde; casas com distância <= a da   //
+//   saída = ciano.                                                 //
+// modo 2 (Dijkstra): caminho = amarelo; casas com custo <= o da    //
+//   saída = roxo.                                                  //
+// Obs.: as buscas percorrem o labirinto inteiro (não param no S).  //
+//   Ciano/roxo mostram quem está até a distância/custo da saída,   //
+//   não exatamente as casas processadas.                           //
 // modo 3 (comparação): só largura = verde, só Dijkstra = amarelo,  //
 //   nos dois = branco.                                             //
 //------------------------------------------------------------------//
@@ -455,7 +469,7 @@ int cor(int modo, int v, int sai, char *noL, char *noD)
 }
 
 //------------------------------------------------------------------//
-// desenha: mostra o labirinto colorido (modo 1, 2 ou 3, ver cor).//
+// desenha: mostra o labirinto colorido (modo 1, 2 ou 3, ver cor). //
 // Parede fica cinza; E e S ficam sem cor. O caractere original     //
 // continua aparecendo, então a lama (~) segue visível.             //
 //------------------------------------------------------------------//
@@ -568,7 +582,6 @@ int main(void)
     int nL = 0, nD = 0;         // quantidade de casas de cada caminho
     int cL = 0, cD = 0;         // custo de cada caminho
 
-    system("");   // liga as cores ANSI no console do Windows
 
     // entrada
     // o labirinto já está no código (matriz lab); aqui só é validado
@@ -597,7 +610,7 @@ int main(void)
         lista(camL, nL);
         printf("Passos: %d\n", nL - 1);
         printf("Custo : %d\n", cL);
-        printf("Ciano = casas processadas, verde = caminho\n");
+        printf("Ciano = distancia <= a da saida, verde = caminho\n");
         desenha(1, sai, nL, 0);
     }
 
@@ -615,7 +628,7 @@ int main(void)
         lista(camD, nD);
         printf("Passos: %d\n", nD - 1);
         printf("Custo : %d\n", cD);
-        printf("Roxo = casas processadas, amarelo = caminho\n");
+        printf("Roxo = custo <= o da saida, amarelo = caminho\n");
         desenha(2, sai, 0, nD);
     }
 
