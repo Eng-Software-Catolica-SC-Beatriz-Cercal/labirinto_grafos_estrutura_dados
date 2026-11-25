@@ -4,7 +4,7 @@
 
 ### Busca em Largura × Dijkstra: o caminho mais curto nem sempre é o mais barato
 
-Trabalho final de **Estrutura de Dados**, do curso de Engenharia de Software (3º período) do<br>
+Trabalho final de **Estrutura de Dados**, do curso de Engenharia de Software (2º período) do<br>
 **Centro Universitário – Católica de Santa Catarina**, em Joinville/SC.
 
 </div>
