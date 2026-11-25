@@ -5,7 +5,6 @@
 // Professor: Manfred Heil Junior                                   //
 // Alunos: Beatriz Cercal Cachoeira e Miguel Rochar Xavier          //
 // Data: 22/11/2026.                                                //
-// Ultima Alteração: 24/11/2026                                     //
 //------------------------------------------------------------------//
 
 //------------------------------------------------------------------//
