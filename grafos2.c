@@ -1,6 +1,6 @@
 //------------------------------------------------------------------//
 // Centro Universitário - Católica de Santa Catarina - Joinville/SC //
-// Curso: Engenharia de Software - Terceiro período                 //
+// Curso: Engenharia de Software - Segundo período                 //
 // Matéria: Estrutura de Dados - Grafos                             //
 // Professor: Manfred Heil Junior                                   //
 // Alunos: Beatriz Cercal Cachoeira e Miguel Rochar Xavier          //
